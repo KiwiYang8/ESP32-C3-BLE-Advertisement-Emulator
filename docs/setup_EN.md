@@ -46,8 +46,6 @@ Upload Speed: 115200
 Serial Monitor: 115200 baud
 ```
 
-After uploads are stable, Upload Speed can be increased to 460800.
-
 ## 5. Download mode
 
 If upload remains stuck at `Connecting...`:

@@ -1,33 +1,25 @@
 # 5-Minute Quick Start: ESP32-C3 BLE Advertising
 
-[中文](QUICKSTART_CN.md) · [Full English Guide](README_EN.md) · [Home](README.md)
+[Technical Guide](README_EN.md) · [Troubleshooting](docs/troubleshooting_EN.md) · [中文](QUICKSTART_CN.md)
 
-This guide has one goal: **get the ESP32-C3 advertising over BLE and visible in nRF Connect.**
+The only goal here is: **make the ESP32-C3 visible in nRF Connect.**
 
-## What you need
+## 1. Prepare
 
 - ESP32-C3 SuperMini
 - USB-C cable with data support
 - Arduino IDE 2.x
 - Android phone + nRF Connect
 
-## Step 1: Install ESP32 board support
+## 2. Install two things
 
-Arduino IDE → **Boards Manager**, search for:
-
-```text
-esp32
-```
-
-Install:
+Arduino IDE → **Boards Manager**:
 
 ```text
 esp32 by Espressif Systems
 ```
 
-## Step 2: Install NimBLE-Arduino
-
-Arduino IDE → **Library Manager**, search for:
+Arduino IDE → **Library Manager**:
 
 ```text
 NimBLE-Arduino
@@ -35,15 +27,13 @@ NimBLE-Arduino
 
 NimBLE-Arduino 2.x is recommended.
 
-## Step 3: Select the board
-
-Select:
+## 3. Select the board
 
 ```text
 ESP32C3 Dev Module
 ```
 
-Then select the corresponding COM port.
+Select the matching COM port.
 
 Start with:
 
@@ -52,7 +42,7 @@ Upload Speed: 115200
 Serial Monitor: 115200
 ```
 
-## Step 4: Open the sketch
+## 4. Upload
 
 Open:
 
@@ -62,23 +52,7 @@ src/ESP32_C3_BLE_Emulator.ino
 
 Compile and upload.
 
-If upload stays at:
-
-```text
-Connecting...
-```
-
-try:
-
-```text
-Hold BOOT
-→ press RST
-→ release RST
-→ release BOOT
-→ upload again
-```
-
-## Step 5: Open Serial Monitor
+## 5. Check Serial Monitor
 
 Use:
 
@@ -86,7 +60,7 @@ Use:
 115200 baud
 ```
 
-Expected output is similar to:
+Expected output:
 
 ```text
 BLE advertising STARTED
@@ -95,31 +69,21 @@ Service UUID : FFF0
 Interval     : ~100 ms
 ```
 
-## Step 6: Scan with nRF Connect
+## 6. Verify with your phone
 
-Open nRF Connect → SCAN.
-
-Search for:
+Open nRF Connect → SCAN → search for:
 
 ```text
 ESP
 ```
 
-If it appears, the full chain works:
+If it appears, the full path is working.
 
-```text
-Arduino setup     ✓
-ESP32-C3          ✓
-NimBLE            ✓
-BLE advertising   ✓
-Phone scanning    ✓
-```
+## 7. Inspect RAW
 
-## Step 7: Inspect RAW data
+Open `ESP` and inspect RAW data.
 
-Open the device and inspect RAW advertising data.
-
-The name `ESP` is placed in Scan Response, so the main 31-byte advertising packet remains unchanged.
+The device name is carried in Scan Response, so the primary advertising packet remains 31 bytes.
 
 ## Something went wrong?
 
@@ -127,10 +91,6 @@ See:
 
 [Troubleshooting](docs/troubleshooting_EN.md)
 
-For packet structure:
+For the 31-byte limit, Scan Response, and GATT/Advertising relationship:
 
-[BLE Advertising Packet Notes](docs/ble_packet_EN.md)
-
-For the full explanation:
-
-[Full English Guide](README_EN.md)
+[Technical Guide](README_EN.md)

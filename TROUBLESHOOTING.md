@@ -5,7 +5,7 @@
 | Problem / 问题 | Fix / 处理 |
 |---|---|
 | Arduino IDE only shows `ESP32 Family Device` / 只显示该名称 | Install `esp32 by Espressif Systems`, then select `ESP32C3 Dev Module`. / 安装 Espressif Core 后明确选择该开发板。 |
-| Only `exit status 1` / 只有这一行错误 | Open **Output / 输出**, compile again, and read the first real `error:` line. / 切换到底部“输出”，重新编译并看第一条真正错误。 |
+| Only `exit status 1` / 只有这一行错误 | Open **Output / 输出**, compile again, and read the first real `error:` line. / 切换到底部“输出”，重新编译并看第一条真正错误；这个一般是板子没连接好，或者板子型号没选对。 |
 | `invalid header: 0xffffffff` | Select the correct board, use Upload Speed `115200`, erase flash if needed, then upload again. / 检查开发板、降低上传速度，必要时擦除 Flash 后重刷。 |
 | Upload stuck at `Connecting...` / 一直连接不上 | Hold **BOOT** → press **RST** → release RST → release BOOT → upload again. / 用 BOOT + RST 进入下载模式后重试。 |
 | COM port disappears / COM 口消失 | Check USB cable, port, Type-C contact, hub, and power. / 检查数据线、USB 口、接触、Hub 和供电。 |

@@ -4,74 +4,65 @@
 **ESP32-C3 BLE Advertisement Emulation & Compatibility Testing Tool**
 
 [中文快速上手](QUICKSTART_CN.md) · [English Quick Start](QUICKSTART_EN.md)  
-[中文专业文档](README_CN.md) · [English Full Guide](README_EN.md)
+[中文原理说明](README_CN.md) · [English Technical Guide](README_EN.md)
 
 ---
 
-This repository shows how to use an **ESP32-C3 / ESP32-C3 SuperMini** with **Arduino IDE** and **NimBLE-Arduino 2.x** to construct a legacy BLE advertising packet, expose a test GATT service, and verify the result with **nRF Connect**.
+A small ESP32-C3 + NimBLE-Arduino example for learning BLE Advertising and validating packets with nRF Connect.
 
-本仓库记录如何使用 **ESP32-C3 / ESP32-C3 SuperMini**、**Arduino IDE** 与 **NimBLE-Arduino 2.x** 构造 BLE Legacy Advertising 数据包、创建测试 GATT Service，并通过 **nRF Connect** 验证广播结果。
+一个尽量简单的 ESP32-C3 + NimBLE-Arduino BLE 广播实验项目：先跑起来，再看懂原理。
 
-## Choose your path / 选择阅读方式
+## Start here / 从这里开始
 
-### I just want it to work / 我只想先跑起来
+**只想跑起来：**
 
-- [中文：5 分钟傻瓜式快速上手](QUICKSTART_CN.md)
+- [中文：5 分钟快速上手](QUICKSTART_CN.md)
 - [English: 5-Minute Quick Start](QUICKSTART_EN.md)
 
-### I want to understand how it works / 我想理解原理
+**想理解为什么这样写：**
 
-- [中文专业版文档](README_CN.md)
-- [English Full Guide](README_EN.md)
+- [中文原理说明](README_CN.md)
+- [English Technical Guide](README_EN.md)
 
-### Something is broken / 遇到问题
+**遇到问题：**
 
-- [中文：踩坑与排错](docs/troubleshooting_CN.md)
-- [English: Troubleshooting](docs/troubleshooting_EN.md)
-
-## What is included / 项目内容
-
-- 31-byte legacy BLE advertising example / 31 字节 Legacy Advertising 示例
-- Manufacturer Specific Data
-- Generic 16-bit lab Service UUID example (`0xFFF0`)
-- Device name in Scan Response / Scan Response 设备名
-- ~100 ms advertising interval / 约 100 ms 广播周期
-- ESP32-C3 Arduino source / ESP32-C3 Arduino 源码
-- Bilingual quick-start, setup, packet-format, and troubleshooting docs / 中英文快速上手、配置、数据包与排错文档
+- [中文踩坑与排错](docs/troubleshooting_CN.md)
+- [English Troubleshooting](docs/troubleshooting_EN.md)
 
 ## Demo / 效果展示
 
-Current demo flow:
+Arduino IDE 中选择 `ESP32C3 Dev Module` 并烧录示例：
+
+![Arduino IDE with ESP32C3 Dev Module](images/arduino_ide_esp32c3.jpg)
+
+使用 nRF Connect 检查广播结构。下图已对无关设备标识和实验 RAW 数据做脱敏处理：
+
+![Sanitized nRF Connect RAW view](images/nrf_connect_raw_sanitized.jpg)
+
+实验链路：
 
 ```text
 ESP32-C3 SuperMini
         ↓
 Arduino IDE + NimBLE-Arduino
         ↓
-31-byte BLE Advertising
-        +
-Scan Response: ESP
+BLE Advertising + Scan Response
         ↓
 nRF Connect
         ↓
-Device discovered + RAW packet verified
+发现设备 + 验证 RAW
 ```
 
-Screenshots will be added under `images/` after removing device addresses and unrelated personal information.
+## What this example contains / 示例包含
 
-后续会在 `images/` 中加入演示截图，并对 BLE 地址、状态栏及其他无关个人信息进行裁剪或打码。
+- 31-byte Legacy Advertising
+- Manufacturer Specific Data
+- 16-bit test Service UUID `0xFFF0`
+- Device name `ESP` in Scan Response
+- ~100 ms advertising interval
+- Simple GATT Primary Service
 
-## Quick start / 快速开始
-
-1. Install **esp32 by Espressif Systems** in Arduino IDE.
-2. Install **NimBLE-Arduino 2.x**.
-3. Select **ESP32C3 Dev Module**.
-4. Open `src/ESP32_C3_BLE_Emulator.ino`.
-5. Compile and upload.
-6. Use nRF Connect to scan for device name `ESP`.
-7. Inspect RAW advertising data.
-
-## Repository layout / 仓库结构
+## Repository / 仓库结构
 
 ```text
 .
@@ -83,21 +74,20 @@ Screenshots will be added under `images/` after removing device addresses and un
 ├── LICENSE
 ├── src/
 │   └── ESP32_C3_BLE_Emulator.ino
+├── images/
+│   ├── arduino_ide_esp32c3.jpg
+│   └── nrf_connect_raw_sanitized.jpg
 └── docs/
-    ├── setup_CN.md
-    ├── setup_EN.md
-    ├── ble_packet_CN.md
-    ├── ble_packet_EN.md
     ├── troubleshooting_CN.md
     └── troubleshooting_EN.md
 ```
 
 ## Scope / 使用范围
 
-This project is intended for **BLE protocol learning, interoperability testing, and authorized laboratory simulation**. Use only devices and advertising data that you own or are authorized to test.
+For BLE protocol learning, interoperability testing, and authorized laboratory simulation only.
 
-本项目仅用于 **BLE 协议学习、兼容性测试与获得授权的实验室仿真**。请仅对本人拥有或明确授权测试的设备与广播数据使用本项目。
+仅用于 BLE 协议学习、兼容性测试与获得授权的实验环境。
 
 ## License
 
-MIT License. See [LICENSE](LICENSE).
+MIT License.

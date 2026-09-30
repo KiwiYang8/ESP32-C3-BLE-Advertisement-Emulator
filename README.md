@@ -17,7 +17,7 @@ A minimal ESP32-C3 + NimBLE-Arduino BLE advertising example.
 1. Arduino IDE 安装 / Install:
    - `esp32 by Espressif Systems`
    - `NimBLE-Arduino 2.x`
-2. 开发板 / Board: `ESP32C3 Dev Module`
+2. 开发板 / Board: `ESP32C3 Dev Module` 我所使用开发板为：ESP32-C3 SuperMini
 3. 上传速度 / Upload Speed: `115200`
 4. 打开 / Open: `src/ESP32_C3_BLE_Emulator.ino`
 5. 编译并上传 / Compile and upload

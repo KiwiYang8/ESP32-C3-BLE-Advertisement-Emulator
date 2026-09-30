@@ -15,7 +15,7 @@ This repository shows how to use an **ESP32-C3 / ESP32-C3 SuperMini** with **Ard
 
 - 31-byte legacy BLE advertising example / 31 字节 Legacy Advertising 示例
 - Manufacturer Specific Data
-- 16-bit Service UUID example (`0xFE3C`)
+- Generic 16-bit lab Service UUID example (`0xFFF0`)
 - Optional device name in Scan Response / 可选 Scan Response 设备名
 - ~100 ms advertising interval / 约 100 ms 广播周期
 - ESP32-C3 Arduino source / ESP32-C3 Arduino 源码
@@ -53,9 +53,9 @@ English guide: [README_EN.md](README_EN.md)
 
 ## Scope / 使用范围
 
-This project is intended for **BLE protocol learning, interoperability testing, and authorized laboratory simulation**. Use only devices and advertising data that you own or are authorized to test. Do not use it to bypass attendance, access-control, authentication, pairing, encryption, facial verification, or server-side security mechanisms.
+This project is intended for **BLE protocol learning, interoperability testing, and authorized laboratory simulation**. Use only devices and advertising data that you own or are authorized to test.
 
-本项目仅用于 **BLE 协议学习、兼容性测试与获得授权的实验室仿真**。请仅对本人拥有或明确授权测试的设备与广播数据使用本项目，不应用于绕过考勤、门禁、认证、配对、加密、人脸验证或服务端安全机制。
+本项目仅用于 **BLE 协议学习、兼容性测试与获得授权的实验室仿真**。请仅对本人拥有或明确授权测试的设备与广播数据使用本项目。
 
 ## License
 

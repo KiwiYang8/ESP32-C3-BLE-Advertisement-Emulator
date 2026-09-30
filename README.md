@@ -1,6 +1,7 @@
-# ESP32-C3 BLE Advertisement Emulator
+# ESP32-C3 BLE Advertisement Emulator（钉钉蓝牙打卡神器）
 
 ESP32-C3 BLE 广播模拟与兼容性测试示例（钉钉蓝牙打卡神器）
+
 A minimal ESP32-C3 + NimBLE-Arduino BLE advertising example.
 
 [Technical / 原理](TECHNICAL.md) · [Troubleshooting / 排错](TROUBLESHOOTING.md)

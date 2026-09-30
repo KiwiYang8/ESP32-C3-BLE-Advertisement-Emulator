@@ -1,51 +1,11 @@
-# ESP32-C3 BLE Advertisement Emulator & Compatibility Testing Tool
+# ESP32-C3 BLE Advertising: Technical Guide
 
-[中文](README_CN.md) | [Home](README.md)
+[5-Minute Quick Start](QUICKSTART_EN.md) · [Troubleshooting](docs/troubleshooting_EN.md) · [中文](README_CN.md) · [Home](README.md)
 
-## 1. Introduction
+If you only want to get the example running, use [QUICKSTART_EN.md](QUICKSTART_EN.md).  
+This page explains the core BLE ideas without repeating setup and troubleshooting instructions.
 
-This project documents a BLE advertising experiment built with **ESP32-C3 / ESP32-C3 SuperMini + Arduino IDE + NimBLE-Arduino 2.x**.
-
-It focuses on:
-
-- constructing legacy BLE advertising packets;
-- sending custom Manufacturer Specific Data;
-- advertising a 16-bit Service UUID;
-- placing a device name in Scan Response when the 31-byte advertising packet is full;
-- creating a simple GATT Primary Service;
-- validating RAW advertising data with nRF Connect.
-
-The repository uses a generic laboratory payload and UUID for protocol learning and interoperability testing.
-
-## 2. Hardware and software
-
-- ESP32-C3 SuperMini or another ESP32-C3 board
-- USB-C cable with data support
-- Android phone + nRF Connect
-- Arduino IDE 2.x
-- `esp32 by Espressif Systems`
-- NimBLE-Arduino 2.x
-
-## 3. Arduino IDE configuration
-
-Recommended board:
-
-```text
-ESP32C3 Dev Module
-```
-
-Typical settings:
-
-```text
-CPU Frequency: 160 MHz
-Flash Size: 4 MB
-Upload Speed: 115200 or 460800
-Serial Monitor: 115200 baud
-```
-
-Detailed setup: [docs/setup_EN.md](docs/setup_EN.md)
-
-## 4. What the example does
+## 1. What the sketch does
 
 Source:
 
@@ -53,17 +13,23 @@ Source:
 src/ESP32_C3_BLE_Emulator.ino
 ```
 
-The sketch:
+The ESP32-C3:
 
 1. initializes NimBLE;
-2. creates generic lab Service `0xFFF0`;
-3. transmits a 31-byte legacy advertising payload;
-4. publishes short name `ESP` in Scan Response;
-5. uses an advertising interval of approximately 100 ms.
+2. creates a laboratory GATT Primary Service `0xFFF0`;
+3. sends a 31-byte legacy advertising packet;
+4. puts the device name `ESP` in Scan Response;
+5. advertises at approximately 100 ms intervals.
 
-## 5. BLE packet structure
+## 2. Why the main packet is 31 bytes
 
-Example main advertisement:
+Legacy BLE Advertising allows up to:
+
+```text
+31 bytes
+```
+
+The example fills those 31 bytes:
 
 ```text
 02 01 06
@@ -72,47 +38,116 @@ Example main advertisement:
 03 03 F0 FF
 ```
 
-Meaning:
+It contains three AD structures:
 
-| AD Type | Meaning |
-|---|---|
-| `0x01` | Flags |
-| `0xFF` | Manufacturer Specific Data |
-| `0x03` | Complete List of 16-bit Service UUIDs |
+| Field | AD Type | Purpose |
+|---|---:|---|
+| Flags | `0x01` | Basic BLE advertising flags |
+| Manufacturer Specific Data | `0xFF` | Custom laboratory data |
+| Complete 16-bit Service UUIDs | `0x03` | Advertised test service |
 
-Because BLE UUID bytes are little-endian, `F0 FF` represents UUID `0xFFF0`.
+Because BLE UUID bytes are little-endian:
 
-The name `ESP` is placed in Scan Response:
+```text
+F0 FF → 0xFFF0
+```
+
+## 3. Why the device name is in Scan Response
+
+The primary packet is already full, so the name cannot be appended without changing it.
+
+The example therefore uses:
+
+```text
+Main Advertising = 31-byte RAW
+Scan Response     = ESP
+```
+
+The name `ESP` is encoded as:
 
 ```text
 04 09 45 53 50
 ```
 
-More details: [docs/ble_packet_EN.md](docs/ble_packet_EN.md)
+where:
 
-## 6. Usage
+- `09` = Complete Local Name
+- `45 53 50` = ASCII `ESP`
 
-1. Install Arduino IDE.
-2. Install `esp32 by Espressif Systems`.
-3. Install NimBLE-Arduino 2.x.
-4. Select `ESP32C3 Dev Module`.
-5. Open the source sketch.
-6. Compile and upload.
-7. Open Serial Monitor at `115200`.
-8. Scan for `ESP` in nRF Connect.
-9. Inspect Advertising and Scan Response RAW data.
+## 4. Why nRF Connect may show more than 31 bytes
 
-## 7. Troubleshooting
+nRF Connect can display:
 
-- Only “ESP32 Family Device” appears: install the Espressif ESP32 core and explicitly select `ESP32C3 Dev Module`.
-- `invalid header: 0xffffffff`: verify the board, lower upload speed, and if necessary erase flash and enter download mode with BOOT + RST.
-- nRF Connect cannot find the board: first verify a minimal name-only BLE example, then restore the RAW payload.
-- Why use Scan Response for the name: the legacy primary advertising packet is limited to 31 bytes and this example already fills it.
+```text
+Advertising + Scan Response
+```
+
+together.
+
+So the displayed RAW data may be longer than 31 bytes even though the primary advertising packet itself is still 31 bytes.
+
+## 5. Why the interval is set to 160
+
+BLE advertising intervals use units of:
+
+```text
+0.625 ms
+```
+
+The sketch uses:
+
+```cpp
+adv->setAdvertisingInterval(160);
+```
+
+Therefore:
+
+```text
+160 × 0.625 ms = 100 ms
+```
+
+A scanner may report values around 101–104 ms; small variations are normal.
+
+## 6. GATT Service and Advertising are different layers
+
+The example creates:
+
+```text
+GATT Primary Service: 0xFFF0
+```
+
+and also advertises the same UUID.
+
+Conceptually:
+
+```text
+Advertising
+= device discovery information broadcast to nearby scanners
+
+GATT
+= services available after a client connects
+```
+
+The project keeps GATT intentionally minimal.
+
+## 7. Recommended debugging order
+
+```text
+Upload works
+↓
+Name-only BLE is discoverable
+↓
+Add the 31-byte RAW packet
+↓
+Add Scan Response
+↓
+Check GATT
+```
+
+For concrete failures, see:
+
+[docs/troubleshooting_EN.md](docs/troubleshooting_EN.md)
 
 ## 8. Scope
 
 For BLE protocol learning, devices you own, interoperability testing, and authorized laboratory simulation.
-
-## 9. License
-
-MIT License. See [LICENSE](LICENSE).

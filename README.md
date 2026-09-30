@@ -8,9 +8,9 @@ A minimal ESP32-C3 + NimBLE-Arduino BLE advertising example.
 
 ## Demo / 效果
 
-![Arduino IDE](images/arduino_ide_esp32c3.jpg)
+![Arduino IDE](images/arduino_demo.png)
 
-![nRF Connect](images/nrf_connect_raw_sanitized.jpg)
+![nRF Connect](images/nRFConnectDemo.png)
 
 ## Quick Start / 快速上手
 
